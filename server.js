@@ -11,7 +11,8 @@ const upload = multer({ storage });
 
 // Create an instance of express
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true
@@ -37,6 +38,12 @@ app.get('/users', (req, res) => {
         if (err) return res.json(err); 
         return res.json(data);         
     })
+});
+// Endpoint para devolver el usuario autenticado (dummy, sin sesión)
+app.get('/user', (req, res) => {
+    // Si tuvieras sesión, aquí la usarías para identificar el usuario
+    // Por ahora, simplemente devuelve null o un objeto vacío
+    return res.status(200).json(null);
 });
 
 
